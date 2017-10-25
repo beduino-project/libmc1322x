@@ -34,14 +34,17 @@ RANLIB	= $(CROSS_COMPILE)ranlib
 CFLAGS_PLAT  ?= -march=armv4t -mtune=arm7tdmi-s -mlong-calls -msoft-float \
 		-mthumb-interwork -fno-strict-aliasing -fno-common -ffixed-r8 \
 		-ffunction-sections -ffreestanding -fno-builtin -nodefaultlibs
-CFLAGS_WARN  ?= -Wcast-align -Wall -Wstrict-prototypes -Wextra 
+CFLAGS_WARN  ?= -Wcast-align -Wall -Wstrict-prototypes -Wextra
 CFLAGS_OPT   ?= -Os
 CFLAGS_DEBUG ?= -g -DDEBUG -Werror
 CFLAGS_MISC  ?= -pipe
 CFLAGS := $(CFLAGS_PLAT) $(CFLAGS_WARN) $(CFLAGS_OPT) $(CFLAGS_DEBUG) $(CFLAGS_MISC) $(CFLAGS)
 
 # Thumb flags, used for building most objects
-CFLAGS_THUMB ?= -mthumb -mcallee-super-interworking
+CFLAGS_THUMB ?= -mthumb
+
+# Flags needed to make gcc compile this broken code
+CFLAGS_THUMB += -Wno-error=unused-but-set-variable -Wno-unused-but-set-variable
 
 # Linker flags
 LINKERSCRIPT ?= $(MC1322X)/mc1322x.lds
